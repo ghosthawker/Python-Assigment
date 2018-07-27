@@ -1,22 +1,19 @@
-#!/usr/bin/env python3
-import socket, os, time, sys
+#!/usr/bin/env python3 
+import socket, os.path, datetime, sys
 
 def Main():
     host = '127.0.0.1'
-    port = 5000
-    if(len(sys.argv)==2):
-        s = socket.socket()
-        s.connect((host, port))
+    port = 50001
 
-        filename = sys.argv[1]
-        if filename != 'q':
-            s.send(filename.encode('utf-8'))
-            data = s.recv(1024)
-            print("File Recieve displaying content:")
-            print(data)
-        s.close()
-    else:
-        print("Usage ./client <city_name>")
+    s = socket.socket()
+    s.connect((host, port))
+
+    Filename = input("Type in ur file: ")
+    s.send(Filename.encode('utf-8'))
+    s.shutdown(socket.SHUT_WR)
+    data = s.recv(1024).decode('utf-8')
+    print(data)
+    s.close()
 
 if __name__ == '__main__':
     Main()
